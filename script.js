@@ -1,29 +1,29 @@
-const envelope = document.getElementById('envelope');
+const envelope = document.getElementById('envelopeWrapper');
 const music = document.getElementById('bgMusic');
-let isOpen = false;
+const fwContainer = document.getElementById('fireworks-container');
 
+// Create Background Fireworks automatically
+function createFirework() {
+  const fw = document.createElement('div');
+  fw.className = 'firework';
+  fw.style.left = Math.random() * 100 + "vw";
+  fw.style.top = Math.random() * 60 + "vh";
+  fw.style.backgroundColor = ['#ff0000', '#ffd700', '#ff69b4'][Math.floor(Math.random()*3)];
+  fwContainer.appendChild(fw);
+  setTimeout(() => fw.remove(), 1500);
+}
+
+setInterval(createFirework, 800);
+
+// Open Letter Event
 envelope.addEventListener('click', () => {
-  if (!isOpen) {
-    envelope.classList.add('open');
+  if (!envelope.classList.contains('is-open')) {
+    envelope.classList.add('is-open');
     music.play();
-    startHeartRain();
-    isOpen = true;
+    
+    // Intense burst of fireworks on open
+    for(let i=0; i<15; i++) {
+        setTimeout(createFirework, i * 100);
+    }
   }
 });
-
-function startHeartRain() {
-  setInterval(() => {
-    const heart = document.createElement('div');
-    heart.classList.add('falling-heart');
-    heart.innerHTML = "💗";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
-    heart.style.opacity = Math.random();
-    
-    document.body.appendChild(heart);
-    
-    setTimeout(() => {
-      heart.remove();
-    }, 5000);
-  }, 300);
-}
